@@ -2,8 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -23,7 +28,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="array")
      */
     private $roles;
 
@@ -37,6 +42,28 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=100)
      */
     private $email;
+
+    /**
+     * @Assert\NotBlank
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="userID")
+     */
+    private $studentEnrolledSubject;
+
+    public function __construct()
+    {
+        $this->studentEnrolledSubject = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -63,20 +90,30 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): string
+    public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles = 'ROLE_USER';
+        $roles[] = 'ROLE_USER';
 
-        return $roles;
+        return array_unique($roles);
     }
 
-    public function setRoles(string $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     /**
@@ -119,6 +156,18 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
