@@ -1,3 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block body_id 'subject' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
 {{ form_start(form) }}
     {{ form_row(form.subjectName) }}
     {{ form_row(form.subjectKey) }}
@@ -10,3 +18,4 @@
 
 <button type="submit">Create!</button>
 {{ form_end(form) }}
+{% endblock %}

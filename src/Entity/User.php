@@ -5,13 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="user")
  */
 class User implements UserInterface
 {
@@ -23,7 +24,8 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=100, unique=true)
+	 * @Assert\NotBlank()
      */
     private $username;
 
@@ -39,7 +41,8 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100,unique=true)
+	 * @Assert\Email()
      */
     private $email;
 
@@ -58,6 +61,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="userID")
      */
     private $studentEnrolledSubject;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $fullname;
 
     public function __construct()
     {
@@ -134,9 +142,10 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public function getSalt():?string
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+		return null;
     }
 
     /**
@@ -144,8 +153,7 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getEmail(): ?string
@@ -168,6 +176,18 @@ class User implements UserInterface
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getFullname(): ?string
+    {
+        return $this->fullname;
+    }
+
+    public function setFullname(string $fullname): self
+    {
+        $this->fullname = $fullname;
 
         return $this;
     }

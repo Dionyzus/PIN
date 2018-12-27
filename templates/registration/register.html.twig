@@ -1,4 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block body_id 'register' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
 {{ form_start(form) }}
+	{{ form_row(form.fullname) }}
     {{ form_row(form.username) }}
     {{ form_row(form.email) }}
     {{ form_row(form.plainPassword.first) }}
@@ -7,3 +16,4 @@
 
 <button type="submit">Register!</button>
 {{ form_end(form) }}
+{% endblock %}
