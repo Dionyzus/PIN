@@ -20,6 +20,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Security\Core\Encoder\Argon2iPasswordEncoder;
 /**
  * Defines the custom form field type used to change user's password.
  *
@@ -42,11 +45,22 @@ class ChangePasswordType extends AbstractType
                     'autocomplete' => 'off',
                 ],
             ])
-           ->add('plainPassword', RepeatedType::class, array(
+            ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
-            ))
+                'constraints' => [
+                    new NotBlank(),
+                    new Length([
+                        'min' => 5,
+                        'max' => Argon2iPasswordEncoder::MAX_PASSWORD_LENGTH,
+                    ]),
+                ],
+                'first_options' => [
+                    'label' => 'label.new_password',
+                ],
+                'second_options' => [
+                    'label' => 'label.new_password_confirm',
+                ],
+            ])
         ;
     }
 }

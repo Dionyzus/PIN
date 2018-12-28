@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1f4ece1ba7165f5bf701e31d0abcc2c",
+    "content-hash": "2f91dc55bcd8847b3335b79e57538084",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -4790,16 +4790,16 @@
         },
         {
             "name": "symfony/webpack-encore-bundle",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/webpack-encore-bundle.git",
-                "reference": "28b26363937ae85065752380b3fbb4eaa91ba6f2"
+                "reference": "ebe7747897d664ff06fe6845bf2ce94f7a60513f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/28b26363937ae85065752380b3fbb4eaa91ba6f2",
-                "reference": "28b26363937ae85065752380b3fbb4eaa91ba6f2",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/ebe7747897d664ff06fe6845bf2ce94f7a60513f",
+                "reference": "ebe7747897d664ff06fe6845bf2ce94f7a60513f",
                 "shasum": ""
             },
             "require": {
@@ -4817,12 +4817,6 @@
                 "twig/twig": "^1.35 || ^2.0"
             },
             "type": "symfony-bundle",
-            "extra": {
-                "thanks": {
-                    "name": "symfony/webpack-encore",
-                    "url": "https://github.com/symfony/webpack-encore"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\WebpackEncoreBundle\\": "src"
@@ -4839,7 +4833,7 @@
                 }
             ],
             "description": "Integration with your Symfony app & Webpack Encore!",
-            "time": "2018-12-20T14:34:37+00:00"
+            "time": "2018-11-03T19:31:51+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -6498,9 +6492,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "symfony/webpack-encore-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

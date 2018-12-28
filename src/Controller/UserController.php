@@ -13,6 +13,12 @@ namespace App\Controller;
 
 use App\Form\Type\ChangePasswordType;
 use App\Form\UserType;
+use App\Form\UserEditType;
+use App\Entity\User;
+use App\Entity\Subject;
+use App\Repository\UserRepository;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,14 +29,24 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 class UserController extends AbstractController
 {
+
+
     /**
-     * @Route("/edit", methods={"GET", "POST"}, name="user_edit")
+     * @Route("/user/index",name="user_index")
+     */
+    public function index(Request $request,UserRepository $users)
+    {
+        $user=$users->findAll();
+        return $this->render('user/index.html.twig',['users'=>$user]);
+    }
+    /**
+     * @Route("/user/edit", methods={"GET", "POST"}, name="user_edit")
      */
     public function edit(Request $request): Response
     {
         $user = $this->getUser();
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -43,12 +59,12 @@ class UserController extends AbstractController
 
         return $this->render('user/edit.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
+            'editForm' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/change-password", methods={"GET", "POST"}, name="user_change_password")
+     * @Route("/user/change-password", methods={"GET", "POST"}, name="user_change_password")
      */
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
     {

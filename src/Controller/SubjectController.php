@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Form\SubjectType;
 use App\Entity\Subject;
+use App\Repository\SubjectRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +26,7 @@ class SubjectController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // 4) save the User!
+            // 4) save the Subject!
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($subject);
             $entityManager->flush();
@@ -41,20 +42,13 @@ class SubjectController extends AbstractController
     }
 
     /**
-     * @Route("/subject/{id}",name="subject_show")
+     * @Route("/subject/index",name="subject_index")
      */
-    public function show($id)
+    public function index(Request $request,SubjectRepository $subjects)
     {
-        $subject=$this->getDoctrine()
-            ->getRepository(Subject::class)
-            ->find($id);
 
-        if(!$subject){
-            throw $this->createNotFoundException(
-                'No subject found for id '.$id
-            );
-        }
-        return $this->render('subject/show.html.twig', ['subject' => $subject]);
+        $subject=$subjects->findAll();
+        return $this->render('subject/index.html.twig',['subjects' => $subject]);
     }
     /**
      * @Route("/subject/edit/{id}")
