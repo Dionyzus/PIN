@@ -12,7 +12,9 @@
 namespace App\Controller;
 
 use App\Form\Type\ChangePasswordType;
+use App\Form\EnrollSubjectType;
 use App\Form\UserType;
+use App\Form\SubjectType;
 use App\Form\UserEditType;
 use App\Entity\User;
 use App\Entity\Subject;
@@ -25,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 class UserController extends AbstractController
@@ -42,7 +45,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/edit", methods={"GET", "POST"}, name="user_edit")
      */
-    public function edit(Request $request): Response
+    public function editUser(Request $request): Response
     {
         $user = $this->getUser();
 
@@ -61,6 +64,30 @@ class UserController extends AbstractController
             'user' => $user,
             'editForm' => $form->createView(),
         ]);
+    }
+    /**
+     * @Route("/user/enrollSubject", methods={"GET", "POST"}, name="enroll_subject")
+     */
+    public function enrollSubject(Request $request): Response
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(EnrollSubjectType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'user.updated_successfully');
+
+            return $this->redirectToRoute('user_edit');
+        }
+
+        return $this->render('user/enroll.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+
     }
 
     /**
@@ -85,4 +112,5 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 }

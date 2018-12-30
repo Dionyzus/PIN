@@ -28,6 +28,21 @@
                 <td>{{ subject.semesterFullTimeStudent }}</td>
                 <td>{{ subject.semesterPartTimeStudent }}</td>
                 <td>{{ subject.optionalSubject }}</td>
+                <td class="text-right">
+                    <div class="item-actions">
+                        <form action="{{ url('subject_delete',{id: subject.id}) }}" method="post" data-confirmation="true" id="delete-form">
+                            <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+                            <button type="submit" class="btn btn-sm btn-block btn-danger">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                {{ 'delete' }}
+                            </button>
+                        </form>
+
+                        <a href="{{ path('subject_edit', {id: subject.id}) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
+                        </a>
+                    </div>
+                </td>
             </tr>
     {% endfor %}
             </tbody>
@@ -36,5 +51,13 @@
 {% endblock %}
 
 {% block sidebar %}
+    <div class="section">
+        <a href="{{ path('subject_new') }}" class="btn btn-lg btn-block btn-danger">
+            <i class="fa fa-lock" aria-hidden="true"></i> {{ 'Add New' }}
+        </a>
+    </div>
+
     {{ parent() }}
+
 {% endblock %}
+

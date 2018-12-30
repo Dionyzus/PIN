@@ -1,0 +1,28 @@
+{% extends 'user/layout.html.twig' %}
+
+{% block body_id 'subject_edit' %}
+
+{% block main %}
+    <h1>{{ 'edit subject' }}</h1>
+
+    {{ include('user/_form.html.twig', {
+        form: form,
+        button_label: 'save',
+        include_back_to_home_link: true,
+    }, with_context = false) }}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('subject_show', {id: subject.id}) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-eye" aria-hidden="true"></i> {{ 'show' }}
+        </a>
+    </div>
+
+    <div class="section actions">
+        {{ include('user/deleteSubject.html.twig', {subject: subject}, with_context = false) }}
+    </div>
+
+    {{ parent() }}
+
+{% endblock %}

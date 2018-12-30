@@ -54,9 +54,9 @@ class Subject
     private $optionalSubject;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="subjectID")
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="subject")
      */
-    private $studentEnrolledSubject;
+    protected $studentEnrolledSubject;
 
     public function __construct()
     {
@@ -151,4 +151,9 @@ class Subject
 
         return $this;
     }
+    public function __toString()
+    {
+        return (string) $this->getSubjectName();
+    }
+
 }

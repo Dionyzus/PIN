@@ -58,9 +58,9 @@ class User implements UserInterface
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="userID")
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="user")
      */
-    private $studentEnrolledSubject;
+    protected $studentEnrolledSubject;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -72,6 +72,13 @@ class User implements UserInterface
         $this->studentEnrolledSubject = new ArrayCollection();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStudentEnrolledSubject()
+    {
+        return $this->studentEnrolledSubject;
+    }
 
     public function getId(): ?int
     {

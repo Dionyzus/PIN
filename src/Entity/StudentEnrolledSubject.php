@@ -11,14 +11,14 @@ class StudentEnrolledSubject
 {
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="App\Entity\User",inversedBy="userSubjects")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User",inversedBy="studentEnrolledSubject")
      * @ORM\JoinColumn(name="user_id",referencedColumnName="id",nullable=false)
      */
     private $user;
 
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="App\Entity\Subject",inversedBy="userSubjects")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Subject",inversedBy="studentEnrolledSubject")
      * @ORM\JoinColumn(name="subject_id",referencedColumnName="id",nullable=false)
      */
     private $subject;
