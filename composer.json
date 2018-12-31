@@ -35,6 +35,7 @@
         "dama/doctrine-test-bundle": "^5.0",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.12",
+        "ninsuo/symfony-collection": "^2.1",
         "symfony/browser-kit": "*",
         "symfony/css-selector": "*",
         "symfony/debug-bundle": "*",

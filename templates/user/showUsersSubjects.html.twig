@@ -1,0 +1,17 @@
+{% extends 'user/layout.html.twig' %}
+
+{% block body_id 'student_edit_subjects' %}
+
+{% block main %}
+    <h1>{{ 'edit subjects' }}</h1>
+    {{ studentEnrolledSubject.User }}
+    {{ include('user/_form.html.twig', {
+        form: form,
+        button_label: 'save',
+        include_back_to_home_link: true,
+    }, with_context = false) }}
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

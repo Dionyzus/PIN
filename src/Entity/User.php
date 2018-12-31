@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\StudentEnrolledSubject;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -197,5 +198,9 @@ class User implements UserInterface
         $this->fullname = $fullname;
 
         return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->getUsername();
     }
 }

@@ -13,6 +13,8 @@ namespace App\Controller;
 
 use App\Form\Type\ChangePasswordType;
 use App\Form\EnrollSubjectType;
+use App\Form\StudentSubjectType;
+use App\Entity\StudentEnrolledSubject;
 use App\Form\UserType;
 use App\Form\SubjectType;
 use App\Form\UserEditType;
@@ -65,30 +67,6 @@ class UserController extends AbstractController
             'editForm' => $form->createView(),
         ]);
     }
-    /**
-     * @Route("/user/enrollSubject", methods={"GET", "POST"}, name="enroll_subject")
-     */
-    public function enrollSubject(Request $request): Response
-    {
-        $user = $this->getUser();
-
-        $form = $this->createForm(EnrollSubjectType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            $this->addFlash('success', 'user.updated_successfully');
-
-            return $this->redirectToRoute('user_edit');
-        }
-
-        return $this->render('user/enroll.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
-
-    }
 
     /**
      * @Route("/user/change-password", methods={"GET", "POST"}, name="user_change_password")
@@ -112,5 +90,4 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 }

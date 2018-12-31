@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\StudentEnrolledSubject;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -63,6 +64,14 @@ class Subject
         $this->studentEnrolledSubject = new ArrayCollection();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStudentEnrolledSubject()
+    {
+        return $this->studentEnrolledSubject;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,7 +118,7 @@ class Subject
         return $this->ects;
     }
 
-    public function setEcts(int $ects): self
+    public function setEcts(?int $ects): self
     {
         $this->ects = $ects;
 

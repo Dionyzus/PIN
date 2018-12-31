@@ -122,6 +122,9 @@
     "nikic/php-parser": {
         "version": "v4.1.1"
     },
+    "ninsuo/symfony-collection": {
+        "version": "2.1.30"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.x-dev"
     },

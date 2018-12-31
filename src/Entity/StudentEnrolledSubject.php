@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 class StudentEnrolledSubject
 {
     /**
-     * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="App\Entity\User",inversedBy="studentEnrolledSubject")
      * @ORM\JoinColumn(name="user_id",referencedColumnName="id",nullable=false)
      */

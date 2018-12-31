@@ -37,7 +37,7 @@ class StudentEnrolledSubjectRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?StudentEnrolledSubject
+    public function findOneBySomeField($value): ?StudentEnrolledSubjectController
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

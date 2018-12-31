@@ -1,77 +1,36 @@
 <?php
-
 namespace App\Form;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\User;
+use App\Entity\Subject;
+use App\Entity\StudentEnrolledSubject;
+use App\Form\SubjectType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\DataTransformer\ChoiceToValueTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Security\Core\Encoder\Argon2iPasswordEncoder;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class StudentSubjectType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options = [])
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->setMethod($options['method'])
-            ->setAction($options['action'])
-            ->add(
-                'studentMap',
-                'entity',
-                [
-                    'error_bubbling' => true,
-                    'class' => 'App\Entity\Student',
-                    'property' => 'studentId',
-                    'multiple' => false,
-                    'expanded' => false,
-                    'empty_value' => '',
-                    'query_builder' => function (EntityRepository $repo)
-                    {
-                        return $repo->createQueryBuilder('st')->orderBy('st.studentId', 'ASC');
-                    },
-                    'constraints' => [
-                        new NotBlank(
-                            [
-                                'message' => 'Student is required.'
-                            ]
-                        )
-                    ]
-                ]
-            )
-            ->add(
-                'subjectMap',
-                'entity',
-                [
-                    'error_bubbling' => true,
-                    'class' => 'App\Entity\Subject1',
-                    'property' => 'code',
-                    'multiple' => false,
-                    'expanded' => false,
-                    'empty_value' => '',
-                    'query_builder' => function (EntityRepository $repo)
-                    {
-                        return $repo->createQueryBuilder('sb')->orderBy('sb.code', 'ASC');
-                    },
-                    'constraints' => [
-                        new NotBlank(
-                            [
-                                'message' => 'Subject is required.'
-                            ]
-                        )
-                    ]
-                ]
-            );
+
+            ->add('subject', EntityType::class,[
+                'class'=>'App\Entity\Subject',])
+            ->add('status', TextType::class);
     }
 
-    public function getName()
-    {
-        return 'studentsubject';
-    }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(
-            ['data_class' => 'App\Entity\StudentSubject']
-        );
-    }
 }

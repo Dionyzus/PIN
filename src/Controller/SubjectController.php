@@ -130,16 +130,4 @@ class SubjectController extends AbstractController
         return $this->render('subject/index.html.twig',['subjects' => $subject]);
     }
 
-    /**
-     * @Route("/subject/find/{ects}")
-     */
-    public function findSubject($ects)
-    {
-        $subject=$this->getDoctrine()
-            ->getRepository(Subject::class)
-            ->findByEcts($ects);
-
-        return $this->render('subject/show.html.twig', ['subject' => $ects]);
-    }
-
 }

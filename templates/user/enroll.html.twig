@@ -1,33 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/layout.html.twig' %}
 
 {% block body_id 'user_enroll' %}
-{% block javascripts %}
-{% endblock %}
+
 {% block main %}
-    <h1>{{ 'Enroll subject' }}</h1>
+    <h1>{{ 'Enroll Subject' }}</h1>
+
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <h3>Subjects</h3>
-    <ul class="studentEnrolledSubject" data-prototype="{{ form_widget(form.studentEnrolledSubject.vars.prototype)|e('html_attr') }}">
-        {# iterate over each existing tag and render its only field: name #}
-        {% for subject in form.studentEnrolledSubject %}
-            <li>{{ form_row(subject.subjectName) }}</li>
-        {% endfor %}
-    </ul>
+
     <button type="submit" class="btn btn-primary">
-        <i class="fa fa-save" aria-hidden="true"></i> {{ 'action.save'|trans }}
+        <i class="fa fa-save" aria-hidden="true"></i> {{ 'Finish'}}
     </button>
     {{ form_end(form) }}
 {% endblock %}
 
-{% block sidebar %}
-    <div class="section">
-        <a href="{{ path('user_change_password') }}" class="btn btn-lg btn-block btn-danger">
-            <i class="fa fa-lock" aria-hidden="true"></i> {{ 'action.change_password'|trans }}
-        </a>
-    </div>
 
-    {{ parent() }}
-
-{% endblock %}
