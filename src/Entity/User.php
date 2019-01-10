@@ -59,7 +59,7 @@ class User implements UserInterface
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="user",orphanRemoval=true)
      */
     protected $studentEnrolledSubject;
 
@@ -74,11 +74,33 @@ class User implements UserInterface
     }
 
     /**
-     * @return mixed
+     * @return Collection|StudentEnrolledSubject[]
      */
-    public function getStudentEnrolledSubject()
+    public function getStudentEnrolledSubject():Collection
     {
         return $this->studentEnrolledSubject;
+    }
+    public function addStudentSubject(StudentEnrolledSubject $studentEnrolledSubject): self
+    {
+        if (!$this->studentEnrolledSubject->contains($studentEnrolledSubject)) {
+            $this->studentEnrolledSubject[] = $studentEnrolledSubject;
+            $studentEnrolledSubject->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentSubject(StudentEnrolledSubject $studentEnrolledSubject): self
+    {
+        if ($this->studentEnrolledSubject->contains($studentEnrolledSubject)) {
+            $this->studentEnrolledSubject->removeElement($studentEnrolledSubject);
+            // set the owning side to null (unless already changed)
+            if ($studentEnrolledSubject->getUser() === $this) {
+                $studentEnrolledSubject->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
     public function getId(): ?int

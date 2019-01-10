@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\StudentEnrolledSubjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\StudentEnrolledSubject;
 use Doctrine\Common\Collections\Collection;
@@ -55,7 +56,7 @@ class Subject
     private $optionalSubject;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="subject")
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentEnrolledSubject", mappedBy="subject",orphanRemoval=true)
      */
     protected $studentEnrolledSubject;
 
@@ -65,11 +66,33 @@ class Subject
     }
 
     /**
-     * @return mixed
+     * @return Collection|StudentEnrolledSubject[]
      */
-    public function getStudentEnrolledSubject()
+    public function getStudentEnrolledSubject():Collection
     {
         return $this->studentEnrolledSubject;
+    }
+    public function addStudentSubject(StudentEnrolledSubject $studentEnrolledSubject): self
+    {
+        if (!$this->studentEnrolledSubject->contains($studentEnrolledSubject)) {
+            $this->studentEnrolledSubject[] = $studentEnrolledSubject;
+            $studentEnrolledSubject->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentSubject(StudentEnrolledSubject $studentEnrolledSubject): self
+    {
+        if ($this->studentEnrolledSubject->contains($studentEnrolledSubject)) {
+            $this->studentEnrolledSubject->removeElement($studentEnrolledSubject);
+            // set the owning side to null (unless already changed)
+            if ($studentEnrolledSubject->getSubject() === $this) {
+                $studentEnrolledSubject->setSubject(null);
+            }
+        }
+
+        return $this;
     }
 
     public function getId(): ?int

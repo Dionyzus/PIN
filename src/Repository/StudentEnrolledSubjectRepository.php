@@ -35,6 +35,14 @@ class StudentEnrolledSubjectRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findSubjectsAssignedToUser($user)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?StudentEnrolledSubjectController

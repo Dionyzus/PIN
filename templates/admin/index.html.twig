@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'admin_editSubjects' %}
+
+{% block main %}
+    <h1>{{ 'title.edit_user'|trans }} : {{ user.getFullname() }}</h1>
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Naziv</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subject in unassignedSubjects %}
+                    <tr>
+                        <th scope="row">{{ subject.id }}</th>
+                        <td>{{ subject.subjectName }}</td>
+                        <td>
+                            <a href="{{ path('admin.assign', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Dodijeli</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Naziv</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subject in assignedSubjects %}
+                    <tr>
+                        <th scope="row">{{ subject.id }}</th>
+                        <td>{{ subject.subjectName }}</td>
+                        <td>
+                            <a href="{{ path('admin.unassign', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-danger btn-sm">Poništi</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

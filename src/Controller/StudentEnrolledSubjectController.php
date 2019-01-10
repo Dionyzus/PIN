@@ -11,8 +11,8 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Intl\Exception\NotImplementedException;
 use App\Form\Type\ChangePasswordType;
-use App\Form\EnrollSubjectType;
 use App\Form\StudentSubjectType;
 use App\Entity\StudentEnrolledSubject;
 use App\Form\UserType;
@@ -20,10 +20,7 @@ use App\Form\SubjectType;
 use App\Form\UserEditType;
 use App\Entity\User;
 use App\Entity\Subject;
-use App\Repository\StudentEnrolledSubjectRepository;
-use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,7 +67,7 @@ class StudentEnrolledSubjectController extends AbstractController
     /**
      * @Route("/user/showSubjects",name="show_subjects")
      */
-    public function showSubjects(Request $request,StudentEnrolledSubjectRepository $stusEnrolSubjects)
+    /*public function showSubjects(Request $request,StudentEnrolledSubjectRepository $stusEnrolSubjects)
     {
         $stuEnrolSubject=$stusEnrolSubjects->findAll();
         return $this->render('user/showUserSubjects.html.twig',['stusEnrolSubjects'=>$stuEnrolSubject]);
@@ -95,5 +92,70 @@ class StudentEnrolledSubjectController extends AbstractController
             'studentEnrolledSubject' => $studentEnrolledSubject,
             'form' => $form->createView(),
         ]);
+    }
+    /**
+     * @Route("/{userId}", name="admin.index")
+     */
+    public function index($userId)
+    {
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(StudentEnrolledSubject::class);
+
+        $user = $doctrine->getRepository(User::class)->find($userId);
+
+
+        $assignedSubjects = $repository->findSubjectsAssignedToUser($user);
+
+        $assignedSubjects = array_map(function ($row) {
+            return $row->getSubject();
+        }, $assignedSubjects);
+
+        return $this->render("admin/index.html.twig", [
+            'user' => $user,
+            'id'=>$userId,
+            "assignedSubjects" => $assignedSubjects,
+            "unassignedSubjects" => [
+                [
+                    "id" => 2,
+                    "subjectName" => "Sample project #1",
+                ],
+                [
+                    "id" => 1,
+                    "subjectName" => "Sample project #1",
+                ],
+            ]
+        ]);
+    }
+
+    /**
+     * @Route("/{userId}/assign/{subjectId}", name="admin.assign")
+     */
+    public function assign($userId, $subjectId)
+    {
+        $doctrine = $this->getDoctrine();
+
+        $user = $doctrine->getRepository(User::class)->find($userId);
+        $subject = $doctrine->getRepository(Subject::class)->find($subjectId);
+
+        $studentEnrolledSubject = new StudentEnrolledSubject();
+
+        $studentEnrolledSubject
+            ->setUser($user)
+            ->setSubject($subject)
+            ->setStatus('enrolled')
+        ;
+
+        $em = $doctrine->getManager();
+        $em->persist($studentEnrolledSubject);
+        $em->flush();
+
+        return $this->redirectToRoute('admin.index', ['userId' => $userId]);
+    }
+    /**
+     * @Route("/{userId}/unassign/{subjectId}", name="admin.unassign")
+     */
+    public function unassign($userId, $subjectId)
+    {
+        throw new NotImplementedException("Not implemented.");
     }
 }
