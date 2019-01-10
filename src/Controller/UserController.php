@@ -34,8 +34,6 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 class UserController extends AbstractController
 {
-
-
     /**
      * @Route("/user/index",name="user_index")
      */
@@ -51,6 +49,29 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
 
+        $form = $this->createForm(UserEditType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'user.updated_successfully');
+
+            return $this->redirectToRoute('user_edit');
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
+            'editForm' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/user/editSubjects", methods={"GET", "POST"}, name="user_editSubjects")
+     */
+    public function editUserSubjects(Request $request): Response
+    {
+        $user = $this->getUser();
+        $userSubject=$user->getStudentEnrolledSubject();
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
