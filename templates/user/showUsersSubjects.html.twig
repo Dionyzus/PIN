@@ -1,17 +1,38 @@
-{% extends 'user/layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block body_id 'student_edit_subjects' %}
+{% block body_id 'user_showUsersSubjects' %}
 
 {% block main %}
-    <h1>{{ 'edit subjects' }}</h1>
-    {{ studentEnrolledSubject.User }}
-    {{ include('user/_form.html.twig', {
-        form: form,
-        button_label: 'save',
-        include_back_to_home_link: true,
-    }, with_context = false) }}
-{% endblock %}
+    <h1>{{ 'Edit subjects status' }} : {{ user.getFullname() }}</h1>
 
-{% block sidebar %}
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Naziv</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subject in subjects %}
+                    <tr>
+                        <th scope="row">{{ subject.subject.id }}</th>
+                        <td>{{ subject.subject.subjectName }}</td>
+                        <td>{{ subject.status }}</td>
+                        <td class="text-right">
+                            <div class="item-actions">
 
+                                <a href="{{ path('subject_edit', {id: subject.subject.id}) }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

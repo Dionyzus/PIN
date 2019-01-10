@@ -94,7 +94,7 @@ class StudentEnrolledSubjectController extends AbstractController
         ]);
     }
     /**
-     * @Route("/{userId}", name="admin.index")
+     * @Route("/admin/{userId}", name="admin.index")
      */
     public function index($userId)
     {
@@ -103,28 +103,28 @@ class StudentEnrolledSubjectController extends AbstractController
 
         $user = $doctrine->getRepository(User::class)->find($userId);
 
+        $subjects = $this
+            ->getDoctrine()
+            ->getRepository(Subject::class)
+            ->findAll()
+        ;
 
         $assignedSubjects = $repository->findSubjectsAssignedToUser($user);
+
 
         $assignedSubjects = array_map(function ($row) {
             return $row->getSubject();
         }, $assignedSubjects);
+        $result = array_diff($subjects, $assignedSubjects);
+
 
         return $this->render("admin/index.html.twig", [
             'user' => $user,
             'id'=>$userId,
             "assignedSubjects" => $assignedSubjects,
-            "unassignedSubjects" => [
-                [
-                    "id" => 2,
-                    "subjectName" => "Sample project #1",
-                ],
-                [
-                    "id" => 1,
-                    "subjectName" => "Sample project #1",
-                ],
+            "unassignedSubjects" => $result,
             ]
-        ]);
+        );
     }
 
     /**
@@ -156,6 +156,17 @@ class StudentEnrolledSubjectController extends AbstractController
      */
     public function unassign($userId, $subjectId)
     {
-        throw new NotImplementedException("Not implemented.");
+        $doctrine = $this->getDoctrine();
+        $user = $doctrine->getRepository(User::class)->find($userId);
+        $subject = $doctrine->getRepository(Subject::class)->find($subjectId);
+
+        $studentEnrolledSubject=$doctrine->getRepository(StudentEnrolledSubject::class)->findBySubject($subject);
+        $user->removeStudentSubject($studentEnrolledSubject);
+
+        $em = $doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('admin.index', ['userId' => $userId]);
     }
 }

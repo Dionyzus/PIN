@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
+ * @UniqueEntity("email")
+ * @UniqueEntity("username")
  */
 class User implements UserInterface
 {
@@ -44,6 +46,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=100,unique=true)
 	 * @Assert\Email()
+     * @Assert\NotBlank()
      */
     private $email;
 

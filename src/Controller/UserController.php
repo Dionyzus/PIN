@@ -31,6 +31,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class UserController extends AbstractController
 {
@@ -39,8 +41,9 @@ class UserController extends AbstractController
      */
     public function index(Request $request,UserRepository $users)
     {
+
         $user=$users->findAll();
-        return $this->render('user/index.html.twig',['users'=>$user]);
+        return $this->render('user/index.html.twig',['users' => $user]);
     }
     /**
      * @Route("/user/edit", methods={"GET", "POST"}, name="user_edit")
@@ -66,26 +69,50 @@ class UserController extends AbstractController
         ]);
     }
     /**
+     * Deletes a User entity.
+     *
+     * @Route("/userDelete/{id}", methods={"GET", "POST"}, name="user_delete")
+     */
+    public function delete(Request $request, User $id): Response
+    {
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+            return $this->redirectToRoute('homepage');
+        }
+        // Delete the tags associated with this blog post. This is done automatically
+        // by Doctrine, except for SQLite (the database used in this application)
+        // because foreign key support is not enabled by default in SQLite
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em -> getRepository(User::class)->find($id);
+        $em -> remove($user);
+        $em -> flush();
+
+        $this->addFlash('success', 'user deleted successfully');
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
      * @Route("/user/editSubjects", methods={"GET", "POST"}, name="user_editSubjects")
      */
     public function editUserSubjects(Request $request): Response
     {
-        $user = $this->getUser();
-        $userSubject=$user->getStudentEnrolledSubject();
-        $form = $this->createForm(UserEditType::class, $user);
-        $form->handleRequest($request);
+        $userId=$this->getUser();
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(StudentEnrolledSubject::class);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $user = $doctrine->getRepository(User::class)->find($userId);
 
-            $this->addFlash('success', 'user.updated_successfully');
 
-            return $this->redirectToRoute('user_edit');
-        }
+        $subjects = $repository->findSubjectsAssignedToUser($user);
 
-        return $this->render('user/edit.html.twig', [
+        /*$subjects = array_map(function ($row) {
+            return $row->getSubject();
+        }, $subjects);*/
+
+        return $this->render("user/showUsersSubjects.html.twig", [
             'user' => $user,
-            'editForm' => $form->createView(),
+            'id'=>$userId,
+            "subjects" => $subjects,
         ]);
     }
 
