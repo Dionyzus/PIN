@@ -97,14 +97,13 @@ class UserController extends AbstractController
     public function editUserSubjects(Request $request): Response
     {
         $userId=$this->getUser();
+
+
         $doctrine = $this->getDoctrine();
-        $repository = $doctrine->getRepository(StudentEnrolledSubject::class);
 
         $user = $doctrine->getRepository(User::class)->find($userId);
 
-
-        $subjects = $repository->findSubjectsAssignedToUser($user);
-
+        $studentEnrolledSubject=$doctrine->getRepository(StudentEnrolledSubject::class)->findSubjectsAssignedToUser($user);
         /*$subjects = array_map(function ($row) {
             return $row->getSubject();
         }, $subjects);*/
@@ -112,7 +111,31 @@ class UserController extends AbstractController
         return $this->render("user/showUsersSubjects.html.twig", [
             'user' => $user,
             'id'=>$userId,
-            "subjects" => $subjects,
+            "subjects" => $studentEnrolledSubject,
+        ]);
+    }
+    /**
+     * @Route("subject/editStatus", methods={"GET", "POST"}, name="subject_editStatus")
+     */
+    public function editStatus(Request $request):Response
+    {
+        $userId = $this->getUser();
+
+        $doctrine = $this->getDoctrine();
+
+        $form = $this->createForm(StudentSubjectType::class);
+
+        $studentEnrolledSubject = $doctrine->getRepository(StudentEnrolledSubject::class)->findOneBy(['user' => $userId, 'subject' => 17]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $studentEnrolledSubject->setStatus($form->get('status')->getData());
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('user/showUsersSubject.html.twig');
+
+        }
+        return $this->render('user/changeStatus.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

@@ -26,9 +26,6 @@ class StudentSubjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
-            ->add('subject', EntityType::class,[
-                'class'=>'App\Entity\Subject',])
             ->add('status', TextType::class);
     }
 

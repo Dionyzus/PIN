@@ -160,7 +160,7 @@ class StudentEnrolledSubjectController extends AbstractController
         $user = $doctrine->getRepository(User::class)->find($userId);
         $subject = $doctrine->getRepository(Subject::class)->find($subjectId);
 
-        $studentEnrolledSubject=$doctrine->getRepository(StudentEnrolledSubject::class)->findBySubject($subject);
+        $studentEnrolledSubject=$doctrine->getRepository(StudentEnrolledSubject::class)->findOneBy(['user'=>$userId,'subject'=>$subjectId]);
         $user->removeStudentSubject($studentEnrolledSubject);
 
         $em = $doctrine->getManager();

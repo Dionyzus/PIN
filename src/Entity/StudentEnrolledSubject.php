@@ -63,4 +63,8 @@ class StudentEnrolledSubject
 
         return $this;
     }
+    public function __toString()
+    {
+        return (string) $this->getSubject();
+    }
 }

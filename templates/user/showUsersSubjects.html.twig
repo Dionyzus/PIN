@@ -12,7 +12,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Naziv</th>
-                    <th scope="col"></th>
+                    <th scope="col">Status</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                         <td class="text-right">
                             <div class="item-actions">
 
-                                <a href="{{ path('subject_edit', {id: subject.subject.id}) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ path('subject_editStatus') }}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
                                 </a>
                             </div>
