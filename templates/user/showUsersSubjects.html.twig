@@ -3,22 +3,22 @@
 {% block body_id 'user_showUsersSubjects' %}
 
 {% block main %}
-    <h1>{{ 'View subject status' }} : {{ user.getFullname() }}</h1>
+    <div class="alert alert-info" role="alert">{{ 'Welcome ' }} {{ user.fullname }} {{ '! Here is your current progress!' }}</div>
 
     <div class="row">
         <div class="col">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Naziv</th>
+                    <th scope="col">Subject Name</th>
                     <th scope="col">Status</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for subject in subjects %}
                     <tr>
-                        <th scope="row">{{ subject.subject.id }}</th>
+                        <th scope="row">{{ subject.subject.subjectKey }}</th>
                         <td>{{ subject.subject.subjectName }}</td>
                         <td>{{ subject.status }}</td>
                         <td class="text-right">
@@ -36,4 +36,14 @@
             </table>
         </div>
     </div>
+{% endblock %}
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('enroll_subject') }}" class="btn btn-lg btn-primary">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ 'Enroll New Subject' }}
+        </a>
+    </div>
+
+    {{ parent() }}
+
 {% endblock %}

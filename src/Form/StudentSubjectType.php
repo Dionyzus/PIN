@@ -27,10 +27,6 @@ class StudentSubjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'subject', EntityType::class, array(
-                'class' => Subject::class,
-                'choice_label'=>'subjectName','multiple'=>false,'expanded'=>true))
             ->add('status',ChoiceType::class,array(
                     'choices'=> array('Passed'=>'Passed','Failed'=>'Failed','Drop Out'=>'Drop Out'),
                     'multiple'=>false,'expanded'=>true)

@@ -57,6 +57,10 @@ class StudentEnrolledSubjectController extends AbstractController
             return $row->getSubject();
         }, $assignedSubjects);
         $result = array_diff($subjects, $assignedSubjects);
+        $state = "";
+        if($result==null){
+            $state = "No subjects to enroll!";
+        }
 
 
         return $this->render("user/enroll.html.twig", [
@@ -64,6 +68,7 @@ class StudentEnrolledSubjectController extends AbstractController
                 'id'=>$userId,
                 "assignedSubjects" => $assignedSubjects,
                 "unassignedSubjects" => $result,
+                "state"=>$state
             ]
         );
     }

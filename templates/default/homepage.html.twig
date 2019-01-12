@@ -7,16 +7,16 @@
 
 {% block body %}
     <div class="page-header">
-        <h1>{{ 'Welcome to mentorship'|trans|raw }}</h1>
+        <h1>{{ 'Welcome to mentorship!' }}</h1>
     </div>
     <div class="section">
         <p>New User? <b>Register!</b></p>
-        <a href="{{ path('user_registration') }}" class="btn btn-lg btn-default">
+        <a href="{{ path('user_registration') }}" class="btn btn-lg btn-primary">
             <i class="fa fa-user-plus" aria-hidden="true"></i> {{ 'register' }}
         </a>
         <div>
             <br><p>Existing user? <b>Log in here!</b></p>
-        <a href="{{ path('app_login') }}" class="btn btn-lg btn-default">
+        <a href="{{ path('app_login') }}" class="btn btn-lg btn-primary">
             <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ 'login' }}
         </a>
         </div>

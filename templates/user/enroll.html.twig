@@ -3,23 +3,32 @@
 {% block body_id 'user_enrollSubject' %}
 
 {% block main %}
-    <h1>{{ 'Enroll Subject' }}</h1>
+    <div class="alert alert-info" role="alert">{{ 'Enroll Subject' }}</div>
 
     <div class="row">
         <div class="col">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Key</th>
                     <th scope="col">Subject Name</th>
-                    <th scope="col">State</th>
+                    <th scope="col">Program</th>
+                    <th scope="col">ECTS</th>
+                    <th scope="col">Semester for full time students</th>
+                    <th scope="col">Semester for part time students</th>
+                    <th scope="col">Optional subject</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for subject in unassignedSubjects %}
                     <tr>
-                        <th scope="row">{{ subject.id }}</th>
+                        <th scope="row">{{ subject.subjectKey }}</th>
                         <td>{{ subject.subjectName }}</td>
+                        <td>{{ subject.program }}</td>
+                        <td>{{ subject.ects }}</td>
+                        <td>{{ subject.semesterFullTimeStudent }}</td>
+                        <td>{{ subject.semesterPartTimeStudent }}</td>
+                        <td>{{ subject.optionalSubject }}</td>
                         <td>
                             <a href="{{ path('student.enroll', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Enroll subject</a>
                         </td>
@@ -27,5 +36,17 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="alert alert-danger" role="alert"><b>{{ state }}</b></div>
+        </div>
     </div>
+{% endblock %}
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('user_editSubjects') }}" class="btn btn-lg btn-block btn-primary">
+            <i class="fa fa-list" aria-hidden="true"></i> {{ 'Back to Subjects' }}
+        </a>
+    </div>
+
+    {{ parent() }}
+
 {% endblock %}
