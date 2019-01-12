@@ -22,7 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class StudentSubjectType extends AbstractType
+class EnrollSubjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -32,11 +32,9 @@ class StudentSubjectType extends AbstractType
                 'class' => Subject::class,
                 'choice_label'=>'subjectName','multiple'=>false,'expanded'=>true))
             ->add('status',ChoiceType::class,array(
-                    'choices'=> array('Passed'=>'Passed','Failed'=>'Failed','Drop Out'=>'Drop Out'),
+                    'choices'=> array('Passed'=>'Passed','Failed'=>'Failed','Drop Out'=>'Drop_Out'),
                     'multiple'=>false,'expanded'=>true)
             )
-            ;
+        ;
     }
-
-
 }

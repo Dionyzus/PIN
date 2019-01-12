@@ -18,6 +18,7 @@ use App\Entity\StudentEnrolledSubject;
 use App\Form\UserType;
 use App\Form\SubjectType;
 use App\Form\UserEditType;
+use App\Repository\StudentEnrolledSubjectRepository;
 use App\Entity\User;
 use App\Entity\Subject;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -37,37 +38,63 @@ class StudentEnrolledSubjectController extends AbstractController
      */
     public function enrollSubject(Request $request): Response
     {
-        $user=$this->getUser();
-        $studentEnrolledSubject= new StudentEnrolledSubject();
+        $userId=$this->getUser();
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(StudentEnrolledSubject::class);
 
-        $form = $this->createForm(StudentSubjectType::class)
-            ->add('saveAndCreateNew', SubmitType::class);
-        $form->handleRequest($request);
+        $user = $doctrine->getRepository(User::class)->find($userId);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $studentEnrolledSubject->setUser($user);
-            $studentEnrolledSubject->setSubject($form->get('subject')->getData());
-            $studentEnrolledSubject->setStatus($form->get('status')->getData());
+        $subjects = $this
+            ->getDoctrine()
+            ->getRepository(Subject::class)
+            ->findAll()
+        ;
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($studentEnrolledSubject);
-            $em->flush();
-            if ($form->get('saveAndCreateNew')->isClicked()) {
-                return $this->redirectToRoute('enroll_subject');
-            }
+        $assignedSubjects = $repository->findSubjectsAssignedToUser($user);
 
 
-            return $this->redirectToRoute('user_index');
-        }
+        $assignedSubjects = array_map(function ($row) {
+            return $row->getSubject();
+        }, $assignedSubjects);
+        $result = array_diff($subjects, $assignedSubjects);
 
-        return $this->render('user/enroll.html.twig', [
-            'form' => $form->createView(),
-        ]);
+
+        return $this->render("user/enroll.html.twig", [
+                'user' => $user,
+                'id'=>$userId,
+                "assignedSubjects" => $assignedSubjects,
+                "unassignedSubjects" => $result,
+            ]
+        );
+    }
+    /**
+     * @Route("/{userId}/enrollSubject/{subjectId}", name="student.enroll")
+     */
+    public function studentEnroll($userId, $subjectId)
+    {
+        $doctrine = $this->getDoctrine();
+
+        $user = $doctrine->getRepository(User::class)->find($userId);
+        $subject = $doctrine->getRepository(Subject::class)->find($subjectId);
+
+        $studentEnrolledSubject = new StudentEnrolledSubject();
+
+        $studentEnrolledSubject
+            ->setUser($user)
+            ->setSubject($subject)
+            ->setStatus('Enrolled')
+        ;
+
+        $em = $doctrine->getManager();
+        $em->persist($studentEnrolledSubject);
+        $em->flush();
+
+        return $this->redirectToRoute('user_editSubjects', ['userId' => $userId]);
     }
     /**
      * @Route("/user/showSubjects",name="show_subjects")
      */
-    /*public function showSubjects(Request $request,StudentEnrolledSubjectRepository $stusEnrolSubjects)
+    public function showSubjects(Request $request,StudentEnrolledSubjectRepository $stusEnrolSubjects)
     {
         $stuEnrolSubject=$stusEnrolSubjects->findAll();
         return $this->render('user/showUserSubjects.html.twig',['stusEnrolSubjects'=>$stuEnrolSubject]);
@@ -142,7 +169,7 @@ class StudentEnrolledSubjectController extends AbstractController
         $studentEnrolledSubject
             ->setUser($user)
             ->setSubject($subject)
-            ->setStatus('enrolled')
+            ->setStatus('Enrolled')
         ;
 
         $em = $doctrine->getManager();

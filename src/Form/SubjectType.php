@@ -26,7 +26,7 @@ class SubjectType extends AbstractType
             ->add('semester_fullTimeStudent' ,NumberType::class)
             ->add('semester_partTimeStudent',NumberType::class)
             ->add('optionalSubject',ChoiceType::class,array(
-                    'choices'=> array('yes'=>'yes','no'=>'no'),
+                    'choices'=> array('Yes'=>'Yes','No'=>'No'),
                     'multiple'=>false,'expanded'=>true)
             )
             ->add('termsAccepted', CheckboxType::class, array(

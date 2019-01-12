@@ -11,8 +11,8 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Naziv</th>
-                    <th scope="col"></th>
+                    <th scope="col">Subject name</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,7 +21,7 @@
                         <th scope="row">{{ subject.id }}</th>
                         <td>{{ subject.subjectName }}</td>
                         <td>
-                            <a href="{{ path('admin.assign', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Dodijeli</a>
+                            <a href="{{ path('admin.assign', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Assign subject</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -30,20 +30,13 @@
         </div>
         <div class="col">
             <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Naziv</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
                 <tbody>
                 {% for subject in assignedSubjects %}
                     <tr>
                         <th scope="row">{{ subject.id }}</th>
                         <td>{{ subject.subjectName }}</td>
                         <td>
-                            <a href="{{ path('admin.unassign', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-danger btn-sm">Poništi</a>
+                            <a href="{{ path('admin.unassign', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-danger btn-sm">Unassign subject</a>
                         </td>
                     </tr>
                 {% endfor %}

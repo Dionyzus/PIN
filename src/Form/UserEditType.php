@@ -21,7 +21,7 @@ class UserEditType extends AbstractType
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
             ->add('status',ChoiceType::class,array(
-                    'choices'=> array('none'=>'none','full time'=>'full_time_student','part time'=>'part_time_student'),
+                    'choices'=> array('None'=>'None','Full Time'=>'Full_Time_Student','Part Time'=>'Part_Time_Student'),
                     'multiple'=>false,'expanded'=>true)
             )
         ;

@@ -3,7 +3,7 @@
 {% block body_id 'user_showUsersSubjects' %}
 
 {% block main %}
-    <h1>{{ 'Edit subjects status' }} : {{ user.getFullname() }}</h1>
+    <h1>{{ 'View subject status' }} : {{ user.getFullname() }}</h1>
 
     <div class="row">
         <div class="col">
@@ -24,7 +24,9 @@
                         <td class="text-right">
                             <div class="item-actions">
 
-                            <a href="{{ path('editStatus') }}" class="btn btn-outline-success btn-sm">Dodijeli</a>
+                                <a href="{{ path('editStatus', {id: subject.subject.id}) }}" class="btn btn-sm btn-block btn-success">
+                                    <i class="fa fa-edit" aria-hidden="true"></i> {{ 'Edit Status' }}
+                                </a>
 
                             </div>
                         </td>

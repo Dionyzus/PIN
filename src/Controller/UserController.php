@@ -115,7 +115,7 @@ class UserController extends AbstractController
         ]);
     }
     /**
-     * @Route("{subjectId}/editStatus", methods={"GET", "POST"}, name="editStatus")
+     * @Route("{id<\d+>}/editStatus", methods={"GET", "POST"}, name="editStatus")
      */
     public function editStatus(Request $request,Subject $subjectId):Response
     {
