@@ -8,6 +8,7 @@
     </div>
 
     <div class="row">
+        {% if not is_granted('ROLE_ADMIN')%}
         <div class="col-sm-6">
             <div class="jumbotron">
                 <p>
@@ -33,6 +34,7 @@
                 </p>
             </div>
         </div>
+        {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
         <div class="col-sm-6">
             <div class="jumbotron">

@@ -2,9 +2,11 @@
 {% block body_id 'register' %}
 
 {% block main %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
     <h1>{{ 'Registration' }}</h1>
-
+    
     {{ form_start(form) }}
+
     {{ form_widget(form) }}
 
     <button type="submit" class="btn btn-primary">

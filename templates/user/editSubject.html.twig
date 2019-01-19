@@ -3,6 +3,7 @@
 {% block body_id 'subject_edit' %}
 
 {% block main %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
     <h1>{{ 'Edit subject' }}</h1>
 
     {{ include('user/_form.html.twig', {

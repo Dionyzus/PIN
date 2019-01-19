@@ -3,13 +3,9 @@
 {% block body_id 'user_edit' %}
 
 {% block main %}
-    <h1>{{ 'title.edit_user'|trans }}</h1>
-    <div class="container container-table">
-        <div class="row vertical-center-row">
-            <div class="text-center col-md-4 col-md-offset-4 alert-info"><b>Here you can edit your personal info.</b></div>
-        </div>
-    </div>
 
+    <h1>{{ 'Edit your personal info' }}</h1>
+    {% form_theme editForm 'bootstrap_4_layout.html.twig' %}
     {{ form_start(editForm) }}
         {{ form_widget(editForm) }}
         <button type="submit" class="btn btn-primary">

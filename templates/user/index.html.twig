@@ -4,6 +4,7 @@
 {% block body_id 'user_index' %}
 
 {% block main %}
+    {% set continue = false %}
     <h2><b>List of registered students :</b></h2>
     <table class="table table-bordered table-hover">
         <thead class="alert-info">
@@ -17,6 +18,10 @@
         </thead>
         <tbody>
         {% for user in users %}
+            {% if user.id==31 %}
+                {% set continue = true %}
+            {% endif %}
+            {% if not continue %}
         <tr>
             <th scope="row">{{ user.id }}</th>
             <td scope="col">{{ user.fullname }}</td>
@@ -42,6 +47,10 @@
                 </div>
             </td>
         </tr>
+            {% endif %}
+            {% if continue %}
+                {% set continue = false %}
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>

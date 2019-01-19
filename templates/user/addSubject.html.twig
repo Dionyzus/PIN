@@ -3,6 +3,7 @@
 {% block body_id 'subject_new' %}
 
 {% block main %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
     <div class="page-header"><h2><b>Create New Subject</b></h2></div>
 
     {{ form_start(form) }}
@@ -13,7 +14,7 @@
     </button>
 
     <a href="{{ path('subject_index') }}" class="btn btn-link">
-        <i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'back to list' }}
+        <i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'Back To List' }}
     </a>
     {{ form_end(form) }}
 {% endblock %}
