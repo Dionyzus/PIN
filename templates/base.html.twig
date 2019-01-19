@@ -1,22 +1,19 @@
-{#
-   This is the base template used as the application layout which contains the
-   common elements and decorates all the other templates.
-   See https://symfony.com/doc/current/book/templating.html#template-inheritance-and-layouts
-#}
+
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>{% block title %}Programiranje na internetu{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('css/app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{% block title %}Mentorship System{% endblock %}</title>
+    <link rel="alternate" type="application/rss+xml" title="{{ 'Mentorship System' }}" href="{{ path('app_index') }}">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('css/app') }}
+    {% endblock %}
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
 
-    <body id="{% block body_id %}{% endblock %}">
+<body id="{% block body_id %}{% endblock %}">
 
         {% block header %}
             <header>
@@ -106,7 +103,7 @@
 
                     <div id="sidebar" class="col-sm-3">
                         {% block sidebar %}
-                          
+
                         {% endblock %}
                     </div>
                 </div>
@@ -114,9 +111,30 @@
         </div>
 
         {% block footer %}
-
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div id="footer-copyright" class="col-md-6">
+                            <p>&copy; {{ 'now'|date('Y') }} - Mentorship system</p>
+                            <p>{{ 'Programming on the internet' }}</p>
+                        </div>
+                        <div id="footer-resources" class="col-md-6">
+                            <p>
+                                <a href="https://twitter.com/symfony" title="Symfony Twitter">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://www.facebook.com/SensioLabs" title="SensioLabs Facebook">
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://symfony.com/blog/" title="Symfony Blog">
+                                    <i class="fa fa-rss" aria-hidden="true"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         {% endblock %}
-
         {% block javascripts %}
             {{ encore_entry_script_tags('js/app') }}
         {% endblock %}
