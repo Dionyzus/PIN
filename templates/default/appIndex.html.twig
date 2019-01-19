@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'app_index' %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>{{ 'Welcome ' }}<b>{{ user.fullname }}</b></h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="jumbotron">
+                <p>
+                    {{ 'Check your subjects and current status'}}
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="{{ path('user_editSubjects') }}">
+                        <i class="fa fa-edit" aria-hidden="true"></i> {{ 'View' }}
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="jumbotron">
+                <p>
+                    {{ 'Enroll new subject' }}
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="{{ path('enroll_subject') }}">
+                        <i class="fa fa-list-ul" aria-hidden="true"></i> {{ 'Enroll' }}
+                    </a>
+                </p>
+            </div>
+        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="col-sm-6">
+            <div class="jumbotron">
+                <p>
+                    {{ 'View all students data related to subjects' }}
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="{{ path('show_subjects') }}">
+                        <i class="fa fa-list" aria-hidden="true"></i> {{ 'Show' }}
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="jumbotron">
+                <p>
+                    {{ 'Add new subject to the list' }}
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="{{ path('subject_new') }}">
+                        <i class="fa fa-plus-square" aria-hidden="true"></i> {{ 'Create' }}
+                    </a>
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

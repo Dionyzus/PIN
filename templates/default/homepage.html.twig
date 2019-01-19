@@ -7,7 +7,13 @@
 
 {% block body %}
     <div class="page-header">
-        <h1>{{ 'Welcome to mentorship!' }}</h1>
+        <h1><b>{{ 'Welcome to mentorship!' }}</b></h1>
+            <div class="section" style="align-content:center" >
+                <p><i>This is mentorship application which helps students to enroll desired subject,<br>
+                    as well as manages students through the mentor's role.Once you've created account you can enroll subjects,<br>
+                    change it's status during the education period.<br>In case you are the mentor,you can add new subjects or edit existing ones.<br>
+                        As a mentor,you are allowed to edit each of the student's current statuses.<br><br><b>Notice!</b>Mentor's role is only granted by the OSS.</i></p>
+            </div>
     </div>
     <div class="section">
         <p>New User? <b>Register!</b></p>
@@ -21,4 +27,9 @@
         </a>
         </div>
     </div>
+
+
+    {{ parent() }}
+
 {% endblock %}
+

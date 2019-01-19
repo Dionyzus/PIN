@@ -34,7 +34,8 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 class StudentEnrolledSubjectController extends AbstractController
 {
     /**
-     * @Route("/user/enrollSubject", methods={"GET", "POST"}, name="enroll_subject")
+     * @Route("/app/user/enrollSubject", methods={"GET", "POST"}, name="enroll_subject")
+     * @IsGranted("ROLE_USER")
      */
     public function enrollSubject(Request $request): Response
     {
@@ -74,6 +75,7 @@ class StudentEnrolledSubjectController extends AbstractController
     }
     /**
      * @Route("/{userId}/enrollSubject/{subjectId}", name="student.enroll")
+     * @IsGranted("ROLE_USER")
      */
     public function studentEnroll($userId, $subjectId)
     {
@@ -97,7 +99,8 @@ class StudentEnrolledSubjectController extends AbstractController
         return $this->redirectToRoute('user_editSubjects', ['userId' => $userId]);
     }
     /**
-     * @Route("/user/showSubjects",name="show_subjects")
+     * @Route("/app/user/showSubjects",name="show_subjects")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function showSubjects(Request $request,StudentEnrolledSubjectRepository $stusEnrolSubjects)
     {
@@ -106,8 +109,8 @@ class StudentEnrolledSubjectController extends AbstractController
     }
     /**
      * Displays a form to edit an existing Subject entity.
-     *
      * @Route("/{id}/subEdit",methods={"GET", "POST"}, name="user_subject_edit")
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, StudentEnrolledSubject $studentEnrolledSubject): Response
     {
@@ -126,14 +129,15 @@ class StudentEnrolledSubjectController extends AbstractController
         ]);
     }
     /**
-     * @Route("/admin/{userId}", name="admin.index")
+     * @Route("/{id<\d+>}/studentEdit", name="admin.index")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function index($userId)
+    public function index(Request $request, User $user): Response
     {
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(StudentEnrolledSubject::class);
 
-        $user = $doctrine->getRepository(User::class)->find($userId);
+        $user = $doctrine->getRepository(User::class)->find($user);
 
         $subjects = $this
             ->getDoctrine()
@@ -152,7 +156,7 @@ class StudentEnrolledSubjectController extends AbstractController
 
         return $this->render("admin/index.html.twig", [
             'user' => $user,
-            'id'=>$userId,
+            'id'=>$user,
             "assignedSubjects" => $assignedSubjects,
             "unassignedSubjects" => $result,
             ]
@@ -161,6 +165,7 @@ class StudentEnrolledSubjectController extends AbstractController
 
     /**
      * @Route("/{userId}/assign/{subjectId}", name="admin.assign")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function assign($userId, $subjectId)
     {
@@ -181,10 +186,11 @@ class StudentEnrolledSubjectController extends AbstractController
         $em->persist($studentEnrolledSubject);
         $em->flush();
 
-        return $this->redirectToRoute('admin.index', ['userId' => $userId]);
+        return $this->redirectToRoute('admin.index', ['id' => $userId]);
     }
     /**
      * @Route("/{userId}/unassign/{subjectId}", name="admin.unassign")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function unassign($userId, $subjectId)
     {
@@ -199,6 +205,6 @@ class StudentEnrolledSubjectController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        return $this->redirectToRoute('admin.index', ['userId' => $userId]);
+        return $this->redirectToRoute('admin.index', ['id' => $userId]);
     }
 }

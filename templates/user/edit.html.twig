@@ -4,6 +4,11 @@
 
 {% block main %}
     <h1>{{ 'title.edit_user'|trans }}</h1>
+    <div class="container container-table">
+        <div class="row vertical-center-row">
+            <div class="text-center col-md-4 col-md-offset-4 alert-info"><b>Here you can edit your personal info.</b></div>
+        </div>
+    </div>
 
     {{ form_start(editForm) }}
         {{ form_widget(editForm) }}
@@ -23,7 +28,4 @@
             <i class="fa fa-list" aria-hidden="true"></i> {{ 'Back to Subjects' }}
         </a>
     </div>
-
-    {{ parent() }}
-
 {% endblock %}

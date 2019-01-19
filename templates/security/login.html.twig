@@ -26,5 +26,13 @@
     <button type="submit" class="btn btn-primary">
         <i class="fa fa-sign-in" aria-hidden="true"></i> {{ 'login'}}
     </button>
+    <div class="hljs-section">
+        <div>
+            <br><p>Don't have an account?<b>Register!</b></p>
+            <a href="{{ path('user_registration') }}" class="btn btn-lg btn-primary">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> {{ 'register' }}
+            </a>
+        </div>
+    </div>
 </form>
 {% endblock %}

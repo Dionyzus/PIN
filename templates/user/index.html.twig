@@ -4,14 +4,15 @@
 {% block body_id 'user_index' %}
 
 {% block main %}
-    <table class="table table-striped table-middle-aligned">
-        <thead class="thead-dark">
+    <h2><b>List of registered students :</b></h2>
+    <table class="table table-bordered table-hover">
+        <thead class="alert-info">
         <tr>
-            <th scope="col">ID</th>
+            <b><th scope="col">ID</th>
             <th scope="col">Full Name</th>
             <th scope="col">Username</th>
             <th scope="col">e-mail</th>
-            <th scope="col">Status</th>
+                <th scope="col">Status</th></b>
         </tr>
         </thead>
         <tbody>
@@ -28,8 +29,15 @@
                         <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
                         <button type="submit" class="btn btn-sm btn-block btn-danger">
                             <i class="fa fa-trash" aria-hidden="true"></i>
-                            {{ 'delete' }}
+                            {{ 'Delete' }} {{ 'WARNING!!! Deleting permanent!' }}
                         </button>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('admin.index', {id: user.id}) }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
                     </form>
                 </div>
             </td>

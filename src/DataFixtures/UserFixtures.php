@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\StudentEnrolledSubject;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserSubjectsFixture extends Fixture
+class UserFixtures extends Fixture
 {
     private $passwordEncoder;
 
@@ -20,5 +20,19 @@ class UserSubjectsFixture extends Fixture
     public function load(ObjectManager $manager)
     {
 
+
+        $roles = array("ROLE_ADMIN");
+        $user = new User();
+        $user->setFullname('Admin Admin');
+        $user->setUsername('Admin');
+        $user->setEmail('admin@mentorski.com');
+        $user->setRoles($roles);
+        $user->setStatus('None');
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user, 'password'
+        ));
+
+        $manager->persist($user);
+        $manager->flush();
     }
 }

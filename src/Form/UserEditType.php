@@ -21,16 +21,10 @@ class UserEditType extends AbstractType
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
             ->add('status',ChoiceType::class,array(
-                    'choices'=> array('None'=>'None','Full Time'=>'Full_Time_Student','Part Time'=>'Part_Time_Student'),
+                    'choices'=> array('None'=>'None','Full Time'=>'Full Time Student','Part Time'=>'Part Time Student'),
                     'multiple'=>false,'expanded'=>true)
             )
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => User::class,
-        ));
-    }
 }

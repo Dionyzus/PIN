@@ -7,21 +7,30 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- * Require ROLE_ADMIN for *every* controller method in  this class.
- *
- * @IsGranted("ROLE_ADMIN")
- */
+
+
 class AdminController extends AbstractController
 {
     /**
      * Require ROLE_ADMIN for only this controller method.
-     *
-     * @IsGranted("ROLE_ADMIN")
+     * @Route("/app/index", name="app_index")
+     * @IsGranted("ROLE_USER")
      */
-    public function adminDashboard()
+    public function AppIndex(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $userId=$this->getUser();
+
+
+        $doctrine = $this->getDoctrine();
+
+        $user = $doctrine->getRepository(User::class)->find($userId);
+
+        return $this->render("default/appIndex.html.twig", [
+            'user' => $user,
+        ]);
     }
 }

@@ -26,7 +26,7 @@ class UserType extends AbstractType
                 'second_options' => array('label' => 'Repeat Password'),
             ))
             ->add('status',ChoiceType::class,array(
-                'choices'=> array('None'=>'None','Full Time'=>'Full_Time_Student','Part Time'=>'Part_Time_Student'),
+                'choices'=> array('None'=>'None','Full Time'=>'Full Time Student','Part Time'=>'Part Time Student'),
                     'multiple'=>false,'expanded'=>true)
             )
         ;

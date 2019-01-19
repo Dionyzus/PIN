@@ -10,14 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SubjectController extends AbstractController
 {
     /**
-     * Creates a new Post entity.
+     * Creates a new Subject entity.
      *
-     * @Route("/subject/newSubject", methods={"GET", "POST"}, name="subject_new")
+     * @Route("/app/subject/newSubject", methods={"GET", "POST"}, name="subject_new")
+     * @IsGranted("ROLE_ADMIN")
      *
      * NOTE: the Method annotation is optional, but it's a recommended practice
      * to constraint the HTTP methods each controller responds to (by default
@@ -62,8 +64,8 @@ class SubjectController extends AbstractController
     }
 
     /**
-     * Finds and displays a Post entity.
-     *
+     * Finds and displays a Subject entity.
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id<\d+>}", methods={"GET"}, name="subject_show")
      */
     public function show(Subject $subject): Response
@@ -79,7 +81,7 @@ class SubjectController extends AbstractController
 
     /**
      * Displays a form to edit an existing Subject entity.
-     *
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id<\d+>}/edit",methods={"GET", "POST"}, name="subject_edit")
      */
     public function edit(Request $request, Subject $subject): Response
@@ -102,7 +104,7 @@ class SubjectController extends AbstractController
     }
     /**
      * Deletes a Subject entity.
-     *
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}/delete", methods={"GET", "POST"}, name="subject_delete")
      */
     public function delete(Request $request, Subject $subject): Response
@@ -121,7 +123,8 @@ class SubjectController extends AbstractController
     }
 
     /**
-     * @Route("/subject/index",name="subject_index")
+     * @Route("/app/subject/index",name="subject_index")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(Request $request,SubjectRepository $subjects)
     {

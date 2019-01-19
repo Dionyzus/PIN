@@ -37,20 +37,23 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user/index",name="user_index")
+     * @Route("/app/user/index",name="user_index")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(Request $request,UserRepository $users)
     {
-
+        $userId=$this->getUser();
         $user=$users->findAll();
-        return $this->render('user/index.html.twig',['users' => $user]);
+        return $this->render('user/index.html.twig',['users' => $user,'id'=>$userId]);
     }
     /**
-     * @Route("/user/edit", methods={"GET", "POST"}, name="user_edit")
+     * @Route("/app/user/edit", methods={"GET", "POST"}, name="user_edit")
+     * @IsGranted("ROLE_USER")
      */
     public function editUser(Request $request): Response
     {
         $user = $this->getUser();
+        $user->getPassword();
 
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
@@ -58,9 +61,9 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'user.updated_successfully');
+            $this->addFlash('success', 'Data updated successfully!');
 
-            return $this->redirectToRoute('user_edit');
+            return $this->redirectToRoute('app_index');
         }
 
         return $this->render('user/edit.html.twig', [
@@ -70,8 +73,8 @@ class UserController extends AbstractController
     }
     /**
      * Deletes a User entity.
-     *
      * @Route("/userDelete/{id}", methods={"GET", "POST"}, name="user_delete")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, User $id): Response
     {
@@ -92,7 +95,8 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/editSubjects", methods={"GET", "POST"}, name="user_editSubjects")
+     * @Route("/app/user/editSubjects", methods={"GET", "POST"}, name="user_editSubjects")
+     * @IsGranted("ROLE_USER")
      */
     public function editUserSubjects(Request $request): Response
     {
@@ -116,6 +120,7 @@ class UserController extends AbstractController
     }
     /**
      * @Route("{id<\d+>}/editStatus", methods={"GET", "POST"}, name="editStatus")
+     * @IsGranted("ROLE_USER")
      */
     public function editStatus(Request $request,Subject $subjectId):Response
     {
@@ -145,7 +150,8 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/change-password", methods={"GET", "POST"}, name="user_change_password")
+     * @Route("/app/user/change-password", methods={"GET", "POST"}, name="user_change_password")
+     * @IsGranted("ROLE_USER")
      */
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
     {

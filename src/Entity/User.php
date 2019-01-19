@@ -51,7 +51,6 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @Assert\NotBlank
      * @Assert\Length(max=4096)
      */
     private $plainPassword;

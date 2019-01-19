@@ -3,7 +3,7 @@
 {% block body_id 'subject_new' %}
 
 {% block main %}
-    <h1>{{ 'New Subject' }}</h1>
+    <div class="page-header"><h2><b>Create New Subject</b></h2></div>
 
     {{ form_start(form) }}
     {{ form_widget(form.saveAndCreateNew, {label: 'label.save_and_create_new', attr: {class: 'btn btn-primary'}}) }}

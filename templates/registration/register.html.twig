@@ -14,5 +14,18 @@
 {% endblock %}
 
 {% block sidebar %}
+    <div class="alert alert-info" role="alert">
+        <div class="section">
+            <h3><b>Register with your university account to become a part of mentorship program of OSS Split</b></h3>
+        </div>
+        <div>
+            <br><p>Have an account? <b>Log in here!</b></p>
+            <a href="{{ path('app_login') }}" class="btn btn-lg btn-primary">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> {{ 'login' }}
+            </a>
+        </div>
+    </div>
+
+    {{ parent() }}
 
 {% endblock %}

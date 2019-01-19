@@ -23,9 +23,11 @@
                 <div class="navbar navbar-default navbar-static-top" role="navigation">
                     <div class="container">
                         <div class="navbar-header col-md-3 col-lg-2">
-                            <a class="navbar-brand" href="{{ path('homepage') }}">
-                                Mentorship
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a class="navbar-brand" href="{{ path('app_index') }}">
+                                <b>Mentorship</b>
                             </a>
+                            {% endif %}
 
                             <button type="button" class="navbar-toggle"
                                     data-toggle="collapse"
@@ -40,15 +42,11 @@
                             <ul class="nav navbar-nav navbar-right">
 
                                 {% block header_navigation_links %}
-                                    <li>
-                                            <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
-                                        </a>
-                                    </li>
 
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li>
                                             <a href="{{ path('user_index') }}">
-                                                <i class="fa fa-lock" aria-hidden="true"></i> {{ 'menu.admin'|trans }}
+                                                <i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'Student list' }}
                                             </a>
                                         </li>
                                     {% endif %}

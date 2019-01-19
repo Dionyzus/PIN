@@ -18,9 +18,16 @@
 {% endblock %}
 
 {% block header_navigation_links %}
+    {% if is_granted('ROLE_ADMIN') %}
     <li>
-        <a href="{{ path('user_index') }}">
-            <i class="fa fa-home" aria-hidden="true"></i> {{ 'students'}}
+        <a href="{{ path('app_index') }}">
+            <i class="fa fa-home" aria-hidden="true"></i> {{ 'Home' }}
         </a>
     </li>
+    <li>
+        <a href="{{ path('subject_index') }}">
+            <i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'Subject list'}}
+        </a>
+    </li>
+    {% endif %}
 {% endblock %}

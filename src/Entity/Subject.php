@@ -5,11 +5,16 @@ namespace App\Entity;
 use App\Repository\StudentEnrolledSubjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\StudentEnrolledSubject;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubjectRepository")
+ * @UniqueEntity("subjectKey")
+ * @UniqueEntity("subjectName")
  */
 class Subject
 {
@@ -21,12 +26,12 @@ class Subject
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=80)
+     * @ORM\Column(type="string", length=80,unique=true)
      */
     private $subjectName;
 
     /**
-     * @ORM\Column(type="string", length=16)
+     * @ORM\Column(type="string", length=16,unique=true)
      */
     private $subjectKey;
 

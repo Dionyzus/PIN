@@ -3,12 +3,12 @@
 {% block body_id 'user_enrollSubject' %}
 
 {% block main %}
-    <div class="alert alert-info" role="alert">{{ 'Enroll Subject' }}</div>
+    <div><h3><b>Enroll Subject</b></h3></div>
 
     <div class="row">
         <div class="col">
             <table class="table table-bordered">
-                <thead>
+                <thead class="alert-info">
                 <tr>
                     <th scope="col">Key</th>
                     <th scope="col">Subject Name</th>
@@ -30,7 +30,7 @@
                         <td>{{ subject.semesterPartTimeStudent }}</td>
                         <td>{{ subject.optionalSubject }}</td>
                         <td>
-                            <a href="{{ path('student.enroll', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Enroll subject</a>
+                            <a href="{{ path('student.enroll', {userId: user.id, subjectId: subject.id}) }}" class="btn btn-success btn-sm">Enroll subject</a>
                         </td>
                     </tr>
                 {% endfor %}

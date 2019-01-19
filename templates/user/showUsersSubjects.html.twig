@@ -3,14 +3,15 @@
 {% block body_id 'user_showUsersSubjects' %}
 
 {% block main %}
-    <div class="alert alert-info" role="alert">{{ 'Welcome ' }} {{ user.fullname }} {{ '! Here is your current progress!' }}</div>
+    <div class="page-header">
+        <h3><b>{{ 'Hello' }} {{ user.fullname }} {{ 'Here is your current progress!' }}</b></h3></div>
 
     <div class="row">
         <div class="col">
             <table class="table table-bordered">
-                <thead>
+                <thead class="alert-info">
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Subject Name</th>
                     <th scope="col">Status</th>
                 </tr>
