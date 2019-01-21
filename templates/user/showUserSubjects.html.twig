@@ -13,12 +13,29 @@
         </tr>
         </thead>
         <tbody>
+        {% set previous = false %}
+        {% set count = 0 %}
         {% for stuEnrolSubject in stusEnrolSubjects %}
+            {% if count==1 %}
+                <tr>
+                    <th scope ="col"></th>
+                    <th scope="col">{{ stuEnrolSubject.subject }}</th>
+                    <th scope="col">{{ stuEnrolSubject.status }}</th>
+                </tr>
+            {% endif %}
+            {% if previous==stuEnrolSubject.user.fullname and count==0 %}
             <tr>
                 <th scope="col">{{ stuEnrolSubject.user.fullname }}</th>
                 <th scope="col">{{ stuEnrolSubject.subject }}</th>
                 <th scope="col">{{ stuEnrolSubject.status }}</th>
             </tr>
+            {% set count=1 %}
+            {% endif %}
+
+            {% if previous!=stuEnrolSubject.user.fullname and count==1 %}
+            {% set count=0 %}
+            {% endif %}
+            {% set previous = stuEnrolSubject.user.fullname %}
         {% endfor %}
         </tbody>
     </table>
